@@ -26,6 +26,7 @@
     const modalTitle = document.getElementById('modalTitle');
     const footerNote = document.getElementById('footerNote');
     const modalFooterNote = document.getElementById('modalFooterNote');
+    const DEEPSEEK_API_KEY = window.DEEPSEEK_API_KEY_CONFIG || 'fallback-key-warning';
 
     const defaultImage = 'http://www.pericles.net/ftp1/edmond/expertit/Apps/Angel-Image.jpeg';
     const goldenImage = 'http://www.pericles.net/ftp1/edmond/expertit/Apps/Angel-Image-1.jpeg';
@@ -212,7 +213,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer sk-d6b0de1ceb3d4fc0a1de4bcef89f1db2'
+                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
                 },
                 body: JSON.stringify({
                     model: 'deepseek-chat',
