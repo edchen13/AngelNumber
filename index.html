@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>✨ 天使數字 ✨</title>
+    <!-- 引入外部 CSS (可選，為了方便直接內嵌於此，但可按您喜好拆分為 .css 檔) -->
+    <style>
+        /* ========== 主要樣式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #F8F0FC 0%, #f3e5f5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px;
+        }
+
+        #app {
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: #F8F0FC;
+            border-radius: 40px 40px 30px 30px;
+            box-shadow: 0 20px 40px rgba(110, 60, 130, 0.25);
+            overflow: hidden;
+            border: 1px solid rgba(230, 176, 255, 0.5);
+            position: relative;
+        }
+
+        .lang-selector {
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px 24px 8px 24px;
+            gap: 12px;
+            background: transparent;
+        }
+        .lang-option {
+            font-size: 15px;
+            font-weight: 600;
+            color: #9b7aa8;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(2px);
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .lang-option.active {
+            background: #8E44AD;
+            color: white;
+            border-color: #b380d9;
+            box-shadow: 0 4px 10px rgba(142, 68, 173, 0.4);
+        }
+        .lang-option:hover {
+            background: #d9b0ff;
+            color: #3e2a45;
+        }
+
+        .scroll-content {
+            padding: 8px 24px 40px 24px;
+            max-height: 85vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #C39BD3 #F0D9FF;
+        }
+
+        .scroll-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scroll-content::-webkit-scrollbar-track {
+            background: #F0D9FF;
+            border-radius: 20px;
+        }
+        .scroll-content::-webkit-scrollbar-thumb {
+            background: #C39BD3;
+            border-radius: 20px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #5e3a6b;
+            text-shadow: 2px 2px 0 rgba(142, 68, 173, 0.2);
+            letter-spacing: 1px;
+        }
+
+        .divider {
+            height: 4px;
+            width: 70px;
+            background: linear-gradient(90deg, #D9B0FF, #B388EB);
+            border-radius: 10px;
+            margin: 0 auto 25px auto;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+            border-radius: 24px;
+            background: white;
+            box-shadow: 0 8px 20px rgba(142, 68, 173, 0.15);
+            border: 1px solid rgba(230, 176, 255, 0.4);
+        }
+
+        .input-field {
+            width: 100%;
+            height: 60px;
+            border: none;
+            background: transparent;
+            padding: 0 20px;
+            font-size: 17px;
+            color: #2d1b33;
+            border-radius: 24px;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: #b39bc2;
+            font-weight: 400;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .button-group .button-wrap {
+            flex: 3;
+            margin-bottom: 0;
+        }
+        .history-button-wrap {
+            flex: 1;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(142, 68, 173, 0.35);
+        }
+        .history-button {
+            width: 100%;
+            background: linear-gradient(135deg, #a97bc0, #8E44AD);
+            border: none;
+            padding: 16px 0;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .history-button:hover {
+            opacity: 0.9;
+        }
+
+        .waiting-banner {
+            margin: 0 0 16px 0;
+            border-radius: 60px;
+            background: linear-gradient(95deg, #f0e2ff, #e9d0ff);
+            border: 2px solid #b380d9;
+            box-shadow: 0 6px 0 #7d4c9e, 0 10px 20px rgba(142, 68, 173, 0.3);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            backdrop-filter: blur(4px);
+            transform: translateY(0);
+            transition: all 0.2s;
+        }
+        .waiting-banner .spinner-small {
+            width: 28px;
+            height: 28px;
+            border: 4px solid #ffffff;
+            border-top: 4px solid #8E44AD;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .waiting-banner .banner-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #4a2c5a;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+        }
+        .waiting-banner .dots {
+            display: inline-block;
+            width: 24px;
+            text-align: left;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .button-wrap {
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(142, 68, 173, 0.35);
+            transition: transform 0.15s, box-shadow 0.2s;
+        }
+
+        .button-wrap:active {
+            transform: scale(0.97);
+            box-shadow: 0 4px 12px rgba(110, 40, 140, 0.5);
+        }
+
+        .angel-button {
+            width: 100%;
+            background: linear-gradient(135deg, #9b59b6, #8E44AD);
+            border: none;
+            padding: 16px 12px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            border-radius: 30px;
+        }
+
+        .angel-button:disabled {
+            opacity: 0.65;
+            background: #bda0cb;
+            cursor: not-allowed;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .result-card {
+            margin-top: 24px;
+            background: white;
+            border-radius: 32px;
+            border: 1px solid #e6c0ff;
+            box-shadow: 0 8px 20px rgba(142, 68, 173, 0.12);
+            overflow: hidden;
+        }
+
+        .section {
+            padding: 20px 20px 16px 20px;
+            border-bottom: 1px solid #f0d5ff;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .section-header span {
+            font-size: 20px;
+        }
+        .section-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #5e3a6b;
+        }
+
+        .core-quick {
+            background: #faf2ff;
+            padding: 16px 18px;
+            border-radius: 24px;
+            margin-bottom: 16px;
+            border-left: 6px solid #b380d9;
+            font-size: 17px;
+            font-weight: 500;
+            color: #2d1b33;
+            line-height: 1.45;
+        }
+
+        .core-detailed {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #2e1f36;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .tag {
+            background: #eed9ff;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #5e3a6b;
+            border: 1px solid #d9b0ff;
+        }
+
+        .dimension-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .dimension-item {
+            background: #f9f0ff;
+            border-radius: 24px;
+            padding: 16px 18px;
+        }
+        .dimension-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #6b4e71;
+        }
+        .dimension-text {
+            font-size: 15.5px;
+            line-height: 1.6;
+            color: #3d2b47;
+            padding-left: 6px;
+        }
+
+        .action-steps, .ritual-box, .affirmation-box {
+            margin-bottom: 22px;
+        }
+        .sub-section-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #7d5190;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .steps-list {
+            list-style-type: none;
+            padding-left: 8px;
+        }
+        .steps-list li {
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .step-number {
+            background: #b380d9;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .ritual-box, .affirmation-box {
+            background: #faf0ff;
+            border-radius: 24px;
+            padding: 18px 18px;
+            border: 1px dashed #b380d9;
+        }
+        .affirmation-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a235a;
+            font-style: italic;
+            text-align: center;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .image-section {
+            margin-top: 25px;
+            background: rgba(255, 240, 255, 0.7);
+            border-radius: 36px;
+            padding: 20px 10px 16px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(230, 200, 255, 0.7);
+        }
+
+        .angel-image {
+            width: 65%;
+            max-width: 240px;
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 10px rgba(180, 130, 210, 0.3));
+        }
+
+        .image-caption {
+            margin-top: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8E44AD;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid #f0ccff;
+        }
+
+        .toast-error {
+            background: #ffebee;
+            border-left: 8px solid #c0392b;
+            padding: 14px 18px;
+            border-radius: 30px;
+            margin: 16px 0 8px;
+            color: #a5281c;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(200, 50, 50, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-declaration {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #9b7aa8;
+            text-align: center;
+            background: rgba(230, 210, 250, 0.5);
+            padding: 10px 15px;
+            border-radius: 40px;
+            border: 1px solid #d9b0ff;
+        }
+
+        .bottom-spacer {
+            height: 10px;
+        }
+
+        /* 歷史記錄浮層 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 480px;
+            max-height: 80vh;
+            border-radius: 40px;
+            padding: 24px 20px;
+            box-shadow: 0 30px 40px rgba(90, 40, 120, 0.5);
+            border: 2px solid #c7a0e6;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0d0ff;
+            flex-shrink: 0;
+        }
+        .modal-header h2 {
+            font-size: 24px;
+            color: #5e3a6b;
+        }
+        .close-btn {
+            background: #e6ccff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #5e3a6b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .history-list-container {
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 4px;
+        }
+        .history-list {
+            list-style: none;
+        }
+        .history-item {
+            background: #f9f0ff;
+            border-radius: 24px;
+            padding: 16px 18px;
+            margin-bottom: 15px;
+            border-left: 6px solid #b380d9;
+            position: relative;
+        }
+        .history-item small {
+            color: #7d5190;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .history-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #5e3a6b;
+            margin: 4px 0;
+            padding-right: 40px;
+        }
+        .history-summary {
+            font-size: 15px;
+            color: #2d1b33;
+            background: rgba(255,255,240,0.6);
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+        .delete-record {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #ffd9d9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 36px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #b34a4a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            border: 1px solid #ffa5a5;
+        }
+        .delete-record:hover {
+            background: #ffb5b5;
+            color: #a11f1f;
+        }
+        .empty-history {
+            text-align: center;
+            padding: 40px 0;
+            color: #9b7aa8;
+            font-style: italic;
+        }
+        .history-footer-note {
+            margin-top: 16px;
+            font-size: 13px;
+            color: #8a6a9c;
+            text-align: center;
+            background: #f0e0ff;
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 1px dashed #b380d9;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!-- 語言選擇器 -->
+    <div class="lang-selector">
+        <span class="lang-option active" data-lang="en">English</span>
+        <span class="lang-option" data-lang="zh-tw">繁體中文</span>
+        <span class="lang-option" data-lang="zh-cn">简体中文</span>
+    </div>
+
+    <!-- 主要滾動內容區 -->
+    <div class="scroll-content" id="scrollContainer">
+        <h1 class="title" id="mainTitle">✨ Angel Number ✨</h1>
+        <div class="divider"></div>
+
+        <div class="input-container">
+            <input type="text" class="input-field" id="angelInput" placeholder="Enter Angel Number (e.g., 111, 222, 333)" value="">
+        </div>
+
+        <div class="button-group">
+            <div class="button-wrap">
+                <button class="angel-button" id="fetchBtn" type="button">✨ Get Full Reading ✨</button>
+            </div>
+            <div class="history-button-wrap">
+                <button class="history-button" id="historyBtn" type="button">📜 記錄</button>
+            </div>
+        </div>
+
+        <div id="waitingBanner" class="waiting-banner hidden">
+            <div class="spinner-small"></div>
+            <span class="banner-text" id="bannerMessage">Consulting Angels <span class="dots">...</span></span>
+        </div>
+
+        <div id="errorMessage" class="toast-error hidden">
+            <span>⚠️</span>
+            <span id="errorText"></span>
+        </div>
+
+        <div id="resultArea" class="result-card hidden"></div>
+
+        <div class="image-section" id="imageSection">
+            <img id="angelImg" class="angel-image" src="http://www.pericles.net/ftp1/edmond/expertit/Apps/Angel-Image.jpeg" alt="Guardian Angel">
+            <div id="imageCaption" class="image-caption hidden">✨ Angel has delivered your message ✨</div>
+        </div>
+
+        <div class="footer-declaration" id="footerNote">
+            ⚡ 最多保留 30 筆，超出時會自動刪除最舊的記錄。
+        </div>
+        <div class="bottom-spacer"></div>
+    </div>
+</div>
+
+<!-- 歷史記錄 Modal -->
+<div id="historyModal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">📜 查詢記錄</h2>
+            <button class="close-btn" id="closeModalBtn">✕</button>
+        </div>
+        <div class="history-list-container" id="historyListContainer">
+            <!-- 動態渲染 -->
+        </div>
+        <div class="history-footer-note" id="modalFooterNote">
+            ⚡ 最多保留 30 筆，點擊「✕」可刪除單筆記錄。
+        </div>
+    </div>
+</div>
+
+<!-- ========== 引入外部 JavaScript 模組 (拆分維護) ========== -->
+<!-- 注意：此處使用相對路徑，請確保檔案放在同目錄下，或調整路徑。 -->
+<script src="js/translations.js"></script>
+<script src="js/history.js"></script>
+<script src="js/main.js"></script>
+<!-- 
+    建議目錄結構：
+    /index.html
+    /js/translations.js
+    /js/history.js
+    /js/main.js
+-->
+</body>
+</html>
