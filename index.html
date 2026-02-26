@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>✨ 天使數字 ✨</title>
-    <!-- 引入外部 CSS (可選，為了方便直接內嵌於此，但可按您喜好拆分為 .css 檔) -->
     <style>
         /* ========== 主要樣式 ========== */
         * {
@@ -133,16 +132,23 @@
             gap: 12px;
             margin-bottom: 20px;
         }
+
         .button-group .button-wrap {
             flex: 3;
             margin-bottom: 0;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(142, 68, 173, 0.35);
+            transition: transform 0.15s, box-shadow 0.2s;
         }
+
         .history-button-wrap {
             flex: 1;
             border-radius: 30px;
             overflow: hidden;
             box-shadow: 0 8px 18px rgba(142, 68, 173, 0.35);
         }
+
         .history-button {
             width: 100%;
             background: linear-gradient(135deg, #a97bc0, #8E44AD);
@@ -159,8 +165,35 @@
             justify-content: center;
             gap: 5px;
         }
+
         .history-button:hover {
             opacity: 0.9;
+        }
+
+        /* 主要按鈕樣式 - 統一版本 */
+        .angel-button {
+            width: 100%;
+            background: linear-gradient(135deg, #9b59b6, #8E44AD);
+            border: none;
+            padding: 16px 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            border-radius: 30px;
+        }
+
+        .angel-button:active {
+            transform: scale(0.97);
+            box-shadow: 0 4px 12px rgba(110, 40, 140, 0.5);
+        }
+
+        .angel-button:disabled {
+            opacity: 0.65;
+            background: #bda0cb;
+            cursor: not-allowed;
         }
 
         .waiting-banner {
@@ -204,38 +237,6 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        .button-wrap {
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0 8px 18px rgba(142, 68, 173, 0.35);
-            transition: transform 0.15s, box-shadow 0.2s;
-        }
-
-        .button-wrap:active {
-            transform: scale(0.97);
-            box-shadow: 0 4px 12px rgba(110, 40, 140, 0.5);
-        }
-
-        .angel-button {
-            width: 100%;
-            background: linear-gradient(135deg, #9b59b6, #8E44AD);
-            border: none;
-            padding: 16px 12px;
-            color: white;
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            border-radius: 30px;
-        }
-
-        .angel-button:disabled {
-            opacity: 0.65;
-            background: #bda0cb;
-            cursor: not-allowed;
         }
 
         .hidden {
@@ -538,10 +539,39 @@
             border-radius: 20px;
             margin-top: 6px;
         }
-        .delete-record {
+        
+        /* 歷史記錄按鈕群組 */
+        .history-actions {
             position: absolute;
             top: 16px;
             right: 16px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .requery-record {
+            background: #e0ccff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 36px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #5e3a6b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            border: 1px solid #b380d9;
+        }
+        
+        .requery-record:hover {
+            background: #d0b0ff;
+            transform: scale(1.05);
+        }
+        
+        .delete-record {
             background: #ffd9d9;
             border: none;
             width: 36px;
@@ -647,17 +677,9 @@
     </div>
 </div>
 
-<!-- ========== 引入外部 JavaScript 模組 (拆分維護) ========== -->
-<!-- 注意：此處使用相對路徑，請確保檔案放在同目錄下，或調整路徑。 -->
+<!-- ========== 引入外部 JavaScript 模組 ========== -->
 <script src="js/translations.js"></script>
 <script src="js/history.js"></script>
 <script src="js/main.js"></script>
-<!-- 
-    建議目錄結構：
-    /index.html
-    /js/translations.js
-    /js/history.js
-    /js/main.js
--->
 </body>
 </html>

@@ -27,7 +27,7 @@ window.translations = {
         emptyHistory: 'No records yet. Start by querying an angel number.',
         footerNote: '⚡ Max 30 records. Oldest will be auto-deleted when exceeded.',
         modalFooterNote: '⚡ Max 30 records. Click "✕" to delete a record.',
-        systemPrompt: `You are a spiritual angel number expert. Provide a structured interpretation for the angel number given by the user. Format your answer with clear sections as follows (use these exact emoji and headings in English):
+        systemPrompt: `You are a spiritual angel number expert. Provide a structured interpretation for the angel number given by the user. Format your answer with clear sections as follows (use these exact emoji and headings in English, and do NOT include any colons after the headings):
 
 🔮 Direct Meaning
 ✨ Quick Essence: (one short sentence, 1-2 lines)
@@ -72,7 +72,7 @@ Keep the tone warm, concise, and spiritually uplifting. Use only plain text with
         emptyHistory: '尚無記錄。請先查詢天使數字。',
         footerNote: '⚡ 最多保留 30 筆，超出時會自動刪除最舊的記錄。',
         modalFooterNote: '⚡ 最多保留 30 筆，點擊「✕」可刪除單筆記錄。',
-        systemPrompt: `你是一位專精天使數字的靈性導師。請針對使用者詢問的天使數字提供結構化的解讀，並使用以下繁體中文標題與表情符號（請務必完整保留）：
+        systemPrompt: `你是一位專精天使數字的靈性導師。請針對使用者詢問的天使數字提供結構化的解讀，並使用以下繁體中文標題與表情符號（請務必完整保留，且標題後方不要加冒號）：
 
 🔮 直接意義
 ✨ 快速核心：（一句話總結，1–2行）
@@ -117,7 +117,7 @@ Keep the tone warm, concise, and spiritually uplifting. Use only plain text with
         emptyHistory: '暂无记录。请先查询天使数字。',
         footerNote: '⚡ 最多保留 30 条，超出时会自动删除最旧的记录。',
         modalFooterNote: '⚡ 最多保留 30 条，点击「✕」可删除单条记录。',
-        systemPrompt: `你是一位专精天使数字的灵性导师。请针对用户询问的天使数字提供结构化的解读，并使用以下简体中文标题与表情符号（请务必完整保留）：
+         systemPrompt: `你是一位专精天使数字的灵性导师。请针对用户询问的天使数字提供结构化的解读，并使用以下简体中文标题与表情符号（请务必完整保留，且标题后方不要加冒号）：
 
 🔮 直接意义
 ✨ 快速核心：（一句话总结，1–2行）
